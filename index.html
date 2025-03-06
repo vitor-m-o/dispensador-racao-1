@@ -43,7 +43,7 @@
             document.getElementById('status').innerText = 'Atualizando...';
 
             // Passo 1: Obter o conteúdo do arquivo JSON
-            fetch(`https://github.com/vitor-m-o/dispensador-racao-1/blob/main/servo_control.json`, {
+            fetch(`https://raw.githubusercontent.com/vitor-m-o/dispensador-racao-1/main/servo_control.json`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -55,7 +55,7 @@
                 const sha = data.sha;  // SHA do arquivo, necessário para atualização
 
                 // Passo 2: Enviar a atualização do arquivo JSON
-                fetch(`https://github.com/vitor-m-o/dispensador-racao-1/blob/main/servo_control.json`, {
+                fetch(`https://raw.githubusercontent.com/vitor-m-o/dispensador-racao-1/main/servo_control.json`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,

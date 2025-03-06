@@ -5,6 +5,12 @@
 -  A variavel que determina a função do ESP-32 deveria ser manipulada pelo site HTML, porém ainda estou trabalhando nisso
 -  Será disponibilizado no futuro um arquivo do desenho técnico e o modelo 3D para a parte física do projeto no futuro
 
+# Arquivos:
+- ESP32-SERVO.ino -> O código que está no ESP32 para ler o valor da variavel do arquivo servo_control.json do github e controlar o servo
+- index.html -> O código do site em HTML que supostamente controlaria a variavel do arquivo servo_control.json
+- servo_control.json -> Arquivo que possuí a variavel utilizada para o ESP32 ler e assim mover o servo, e também para o site HTML manipula-la
+- .github/workflows/update-json.yml -> Suposto workflow que faria o commit e o push da alteração do valor da variavel do arquivo servo_control.json
+
 # Bibliotecas utilizadas:
 - Bibliotecas instaladas diretamente da IDE Arduino. Creditos aos seus devidos criadores.
 - Wifi

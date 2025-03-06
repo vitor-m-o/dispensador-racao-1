@@ -7,17 +7,16 @@
 </head>
 <body>
     <h1>Atualizar JSON no GitHub</h1>
-    <!-- Botão para acionar a atualização do JSON -->
     <button id="runWorkflow">Atualizar JSON</button>
 
     <script>
         document.getElementById("runWorkflow").addEventListener("click", () => {
-            // A requisição vai acionar o GitHub Actions sem usar o token diretamente no frontend
             fetch("https://api.github.com/repos/vitor-m-o/dispensador-racao-1/dispatches", {
                 method: "POST",
                 headers: {
                     "Accept": "application/vnd.github.v3+json",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer YOUR_GITHUB_TOKEN" // Replace with your actual token
                 },
                 body: JSON.stringify({ event_type: "atualizar-json" })
             })

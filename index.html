@@ -1,88 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar Variável no JSON</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <title>Atualizar JSON no GitHub</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Alterar variável no arquivo JSON do GitHub</h1>
-        <button id="updateButton">Atualizar Variável</button>
-        <p id="status"></p>
-    </div>
+    <h1>Atualizar JSON no GitHub</h1>
+    <button id="runWorkflow">Atualizar JSON</button>
 
     <script>
-        document.getElementById('updateButton').onclick = function() {
-            const token = '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';  // Seu token de autenticação do GitHub
-            const repoOwner = 'vitor-m-o';  // Nome do proprietário do repositório
-            const repoName = 'dispensador-racao-1';  // Nome do repositório
-            const filePath = 'servo_control.json';  // Caminho para o arquivo JSON
-            const branch = 'main';  // Branch do repositório
-            const newValue = '{"nova_variavel": "novo_valor"}';  // Novo valor para o JSON
+        document.getElementById("runWorkflow").addEventListener("click", () => {
+            const token = "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";  // ⚠ NÃO coloque isso em sites públicos!
+            const repo = "vitor-m-o/dispensador-racao-1";
+            const owner = "vitor-m-o";
 
-            // Atualiza o status no front-end
-            document.getElementById('status').innerText = 'Atualizando...';
-
-            // Passo 1: Obter o conteúdo do arquivo JSON
-            fetch(`https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/vitor-m-o/dispensador-racao-1/main/servo_control.json`, {
-                method: 'GET',
+            fetch(`https://api.github.com/repos/${owner}/${repo}/dispatches`, {
+                method: "POST",
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/vnd.github.v3+json'
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/vnd.github.v3+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ event_type: "atualizar-json" })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Workflow acionado com sucesso!");
+                } else {
+                    response.json().then(data => alert("Erro: " + JSON.stringify(data)));
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                const sha = data.sha;  // SHA do arquivo, necessário para atualização
-
-                // Passo 2: Enviar a atualização do arquivo JSON
-                fetch(`https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/vitor-m-o/dispensador-racao-1/main/servo_control.json`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Alterando valor no JSON',  // Mensagem do commit
-                        content: btoa(newValue),  // Codificação base64 do novo conteúdo
-                        sha: sha,  // SHA do arquivo
-                        branch: branch
-                    })
-                })
-                .then(response => response.json())
-                .then(result => {
-                    console.log('Arquivo atualizado com sucesso:', result);
-                    document.getElementById('status').innerText = 'Variável atualizada com sucesso!';
-                })
-                .catch(error => {
-                    console.error('Erro ao atualizar o arquivo:', error);
-                    document.getElementById('status').innerText = 'Erro ao atualizar o arquivo.';
-                });
-            })
-            .catch(error => {
-                console.error('Erro ao obter o arquivo:', error);
-                document.getElementById('status').innerText = 'Erro ao obter o arquivo.';
-            });
-        };
+            .catch(error => alert("Erro: " + error));
+        });
     </script>
 </body>
 </html>

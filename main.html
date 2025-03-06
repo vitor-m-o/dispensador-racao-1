@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Variável no JSON</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Alterar variável no arquivo JSON do GitHub</h1>
+        <button id="updateButton">Atualizar Variável</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        document.getElementById('updateButton').onclick = function() {
+            const token = 'seu_token_aqui';  // Seu token de autenticação do GitHub
+            const repoOwner = 'usuario_ou_organizacao';  // Nome do proprietário do repositório
+            const repoName = 'nome_do_repositorio';  // Nome do repositório
+            const filePath = 'caminho/do/arquivo.json';  // Caminho para o arquivo JSON
+            const branch = 'main';  // Branch do repositório
+            const newValue = '{"nova_variavel": "novo_valor"}';  // Novo valor para o JSON
+
+            // Atualiza o status no front-end
+            document.getElementById('status').innerText = 'Atualizando...';
+
+            // Passo 1: Obter o conteúdo do arquivo JSON
+            fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}?ref=${branch}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const sha = data.sha;  // SHA do arquivo, necessário para atualização
+
+                // Passo 2: Enviar a atualização do arquivo JSON
+                fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Alterando valor no JSON',  // Mensagem do commit
+                        content: btoa(newValue),  // Codificação base64 do novo conteúdo
+                        sha: sha,  // SHA do arquivo
+                        branch: branch
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Arquivo atualizado com sucesso:', result);
+                    document.getElementById('status').innerText = 'Variável atualizada com sucesso!';
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar o arquivo:', error);
+                    document.getElementById('status').innerText = 'Erro ao atualizar o arquivo.';
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao obter o arquivo:', error);
+                document.getElementById('status').innerText = 'Erro ao obter o arquivo.';
+            });
+        };
+    </script>
+</body>
+</html>

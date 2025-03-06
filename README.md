@@ -11,7 +11,7 @@
 - servo_control.json -> Arquivo que possuí a variavel utilizada para o ESP32 ler e assim mover o servo, e também para o site HTML manipula-la
 - .github/workflows/update-json.yml -> Suposto workflow que faria o commit e o push da alteração do valor da variavel do arquivo servo_control.json
 
-# Bibliotecas utilizadas:
+# Bibliotecas utilizadas no código do ESP32:
 - Bibliotecas instaladas diretamente da IDE Arduino. Creditos aos seus devidos criadores.
 - Wifi
 - HTTPClient

@@ -2,6 +2,7 @@ name: Atualizar JSON
 
 on:
   workflow_dispatch: # Permite rodar manualmente
+  repository_dispatch: # Permite rodar via API externa
 
 jobs:
   update_json:

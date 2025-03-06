@@ -1,36 +1,20 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar JSON no GitHub</title>
-</head>
-<body>
-    <h1>Atualizar JSON no GitHub</h1>
-    <button id="runWorkflow">Atualizar JSON</button>
-
-    <script>
-        document.getElementById("runWorkflow").addEventListener("click", () => {
-            const token = "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";  // ⚠ NÃO coloque isso em sites públicos!
-
-            fetch(`https://api.github.com/repos/vitor-m-o/dispensador-racao-1/dispatches`, {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Accept": "application/vnd.github.v3+json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ event_type: "atualizar-json" })
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert("Workflow acionado com sucesso!");
-                } else {
-                    response.json().then(data => alert("Erro: " + JSON.stringify(data)));
-                }
-            })
-            .catch(error => alert("Erro: " + error));
-        });
-    </script>
-</body>
-</html>
+<script>
+    document.getElementById("runWorkflow").addEventListener("click", () => {
+        fetch("https://api.github.com/repos/vitor-m-o/dispensador-racao-1/dispatches", {
+            method: "POST",
+            headers: {
+                "Accept": "application/vnd.github.v3+json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ event_type: "atualizar-json" })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Workflow acionado com sucesso!");
+            } else {
+                response.json().then(data => alert("Erro: " + JSON.stringify(data)));
+            }
+        })
+        .catch(error => alert("Erro: " + error));
+    });
+</script>

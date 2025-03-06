@@ -1,3 +1,10 @@
+//=====VITOR-MAZIERO-OLIVEIRA=====//
+//=====GITHUB:VITOR-M-O=====//
+
+//=====CODIGO-GERADO-PELO-CHAT-GPT=====//
+//=====MODIFICADO-E-ANALISADO-POR-VITOR======//
+
+// Bibliotecas utilizadas no código
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
@@ -25,7 +32,7 @@ void setup() {
   
   Serial.println("Conectado ao Wi-Fi!");
   
-  // Iniciar o servo no pino 9 (ou o pino desejado)
+  // Iniciar o servo no pino 26 
   meuServo.attach(26);
 }
 
@@ -50,12 +57,6 @@ void loop() {
       
       // Suponha que a variável no JSON seja "valorServo" e tenha um valor numérico
       int valorServo = doc["valorServo"];  // Obter o valor da variável do JSON
-      
-      // Mover o servo conforme o valor
-      posicaoServo = map(valorServo, 0, 100, 0, 180);  // Mapear para o intervalo de 0 a 180
-      
-      Serial.print("Valor do servo: ");
-      Serial.println(valorServo);
 
       if (valorServo == 1)
       {

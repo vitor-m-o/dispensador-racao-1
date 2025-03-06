@@ -12,10 +12,8 @@
     <script>
         document.getElementById("runWorkflow").addEventListener("click", () => {
             const token = "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";  // ⚠ NÃO coloque isso em sites públicos!
-            const repo = "vitor-m-o/dispensador-racao-1";
-            const owner = "vitor-m-o";
 
-            fetch(`https://api.github.com/repos/${owner}/${repo}/dispatches`, {
+            fetch(`https://api.github.com/repos/vitor-m-o/dispensador-racao-1/dispatches`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
